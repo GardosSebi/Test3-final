@@ -13,9 +13,14 @@ export async function GET(request: NextRequest) {
     // Get user's workspace (either owned or as member)
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
-      include: {
+      select: {
         workspace: {
-          include: {
+          select: {
+            id: true,
+            name: true,
+            userId: true,
+            created_at: true,
+            updated_at: true,
             members: {
               include: {
                 user: {
@@ -30,9 +35,14 @@ export async function GET(request: NextRequest) {
           },
         },
         workspaceMemberships: {
-          include: {
+          select: {
             workspace: {
-              include: {
+              select: {
+                id: true,
+                name: true,
+                userId: true,
+                created_at: true,
+                updated_at: true,
                 members: {
                   include: {
                     user: {
