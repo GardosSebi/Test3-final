@@ -46,6 +46,8 @@ export async function GET(
             id: true,
             name: true,
             color: true,
+            created_at: true,
+            updated_at: true,
           },
         },
         files: {
