@@ -122,6 +122,7 @@ export async function POST(request: NextRequest) {
       const newUser = await tx.user.create({
         data: {
           email: data.email,
+          name: data.email.split('@')[0],
           password_hash,
           role: 'USER',
           workspaceId: workspace.id,
