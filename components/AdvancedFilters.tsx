@@ -201,26 +201,7 @@ export default function AdvancedFilters({
               </div>
             )}
 
-            {/* Project */}
-            {projects.length > 0 && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Proiect
-                </label>
-                <select
-                  value={filters.projectId || ''}
-                  onChange={(e) => handleFilterChange('projectId', e.target.value)}
-                  className="w-full px-3 py-2 text-sm bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Toate</option>
-                  {projects.map((project) => (
-                    <option key={project.id} value={project.id}>
-                      {project.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
+            
 
             {/* Date Range */}
             <div>

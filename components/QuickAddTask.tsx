@@ -75,7 +75,6 @@ export default function QuickAddTask({
       {shouldShowFields && (
         <div className="px-3 pb-3 space-y-2">
           <div className="flex items-center gap-2">
-            <label className="text-xs font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">Prioritate: <span className="text-red-500 dark:text-red-400">*</span></label>
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value === '' ? '' : Number(e.target.value))}
@@ -106,8 +105,7 @@ export default function QuickAddTask({
             rows={2}
             className="w-full px-3 py-2 text-sm text-black dark:text-white bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500 resize-none"
           />
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+          <div className="flex items-center gap-2">         
             <input
               type="date"
               value={deadline}
