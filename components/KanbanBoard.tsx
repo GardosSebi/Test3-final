@@ -151,74 +151,77 @@ export default function KanbanBoard({
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.9 }}
-                      draggable={true}
-                      onDragStart={(e: React.DragEvent) => handleDragStart(e, task)}
-                      onDragEnd={handleDragEnd}
-                      onClick={(e) => {
-                        // Only trigger click if we didn't just drag
-                        if (dragStartPos.current) {
-                          const moved = Math.abs(e.clientX - dragStartPos.current.x) > 5 || 
-                                       Math.abs(e.clientY - dragStartPos.current.y) > 5
-                          if (!moved) {
-                            onTaskClick?.(task)
-                          }
-                        } else {
-                          onTaskClick?.(task)
-                        }
-                      }}
                       className={`
-                        bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600 p-3
-                        cursor-move hover:shadow-md dark:hover:shadow-lg transition-shadow select-none
+                        bg-white dark:bg-gray-700 rounded-lg shadow-sm border border-gray-200 dark:border-gray-600
                         ${overdue ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/30' : ''}
                         ${draggedTask?.id === task.id ? 'opacity-50' : ''}
                       `}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            {task.priority > 0 && (
-                              <Flag
-                                className={`w-4 h-4 ${getPriorityColor(task.priority)}`}
-                              />
+                      <div
+                        draggable={true}
+                        onDragStart={(e: React.DragEvent) => handleDragStart(e, task)}
+                        onDragEnd={handleDragEnd}
+                        onClick={(e) => {
+                          // Only trigger click if we didn't just drag
+                          if (dragStartPos.current) {
+                            const moved = Math.abs(e.clientX - dragStartPos.current.x) > 5 || 
+                                         Math.abs(e.clientY - dragStartPos.current.y) > 5
+                            if (!moved) {
+                              onTaskClick?.(task)
+                            }
+                          } else {
+                            onTaskClick?.(task)
+                          }
+                        }}
+                        className="p-3 cursor-move hover:shadow-md dark:hover:shadow-lg transition-shadow select-none"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              {task.priority > 0 && (
+                                <Flag
+                                  className={`w-4 h-4 ${getPriorityColor(task.priority)}`}
+                                />
+                              )}
+                              <h4 className="font-medium text-gray-900 dark:text-white text-sm truncate">
+                                {task.title}
+                              </h4>
+                            </div>
+                            {task.notes && (
+                              <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">
+                                {task.notes}
+                              </p>
                             )}
-                            <h4 className="font-medium text-gray-900 dark:text-white text-sm truncate">
-                              {task.title}
-                            </h4>
-                          </div>
-                          {task.notes && (
-                            <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">
-                              {task.notes}
-                            </p>
-                          )}
-                          <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
-                            {dueDate && (
-                              <div className={`flex items-center gap-1 ${overdue ? 'text-red-600 dark:text-red-400 font-medium' : ''}`}>
-                                <Calendar className="w-3 h-3" />
-                                {formatDate(dueDate)}
-                                {overdue && ' (Întârziată)'}
-                              </div>
-                            )}
-                            {task.project && (
-                              <span
-                                className={`px-2 py-0.5 rounded text-xs ${
-                                  task.project.color 
-                                    ? '' 
-                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white'
-                                }`}
-                                style={task.project.color ? {
-                                  backgroundColor: `${task.project.color}20`,
-                                  color: task.project.color,
-                                } : undefined}
-                              >
-                                {task.project.name}
-                              </span>
-                            )}
-                            {task.responsible && (
-                              <div className="flex items-center gap-1">
-                                <User className="w-3 h-3" />
-                                <span>{task.responsible}</span>
-                              </div>
-                            )}
+                            <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
+                              {dueDate && (
+                                <div className={`flex items-center gap-1 ${overdue ? 'text-red-600 dark:text-red-400 font-medium' : ''}`}>
+                                  <Calendar className="w-3 h-3" />
+                                  {formatDate(dueDate)}
+                                  {overdue && ' (Întârziată)'}
+                                </div>
+                              )}
+                              {task.project && (
+                                <span
+                                  className={`px-2 py-0.5 rounded text-xs ${
+                                    task.project.color 
+                                      ? '' 
+                                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white'
+                                  }`}
+                                  style={task.project.color ? {
+                                    backgroundColor: `${task.project.color}20`,
+                                    color: task.project.color,
+                                  } : undefined}
+                                >
+                                  {task.project.name}
+                                </span>
+                              )}
+                              {task.responsible && (
+                                <div className="flex items-center gap-1">
+                                  <User className="w-3 h-3" />
+                                  <span>{task.responsible}</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>
