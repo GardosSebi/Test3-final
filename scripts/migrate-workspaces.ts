@@ -3,17 +3,12 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  // Get all users without workspaces
-  const users = await prisma.user.findMany({
-    where: {
-      workspaceId: null,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-    },
-  })
+  // Get all users without workspaces using raw query to handle potential null values
+  const users = await prisma.$queryRaw<Array<{ id: string; name: string; email: string }>>`
+    SELECT id, name, email
+    FROM "User"
+    WHERE "workspaceId" IS NULL
+  `
 
   for (const user of users) {
     try {
