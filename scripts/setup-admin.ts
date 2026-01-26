@@ -61,12 +61,27 @@ async function setupAdmin() {
 
       const password_hash = await hash(password)
       
-      await prisma.user.create({
+      // Create workspace first, then create user
+      const workspace = await prisma.workspace.create({
+        data: {
+          name: 'Admin Workspace',
+        },
+      })
+      
+      const user = await prisma.user.create({
         data: {
           email,
+          name: email.split('@')[0], // Use email prefix as name
           password_hash,
           role: 'ADMIN',
+          workspaceId: workspace.id,
         },
+      })
+      
+      // Update workspace to link to user
+      await prisma.workspace.update({
+        where: { id: workspace.id },
+        data: { userId: user.id },
       })
     }
 
