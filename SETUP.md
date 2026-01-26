@@ -22,7 +22,7 @@ openssl rand -base64 32
 [Convert]::ToBase64String((1..32 | ForEach-Object { Get-Random -Minimum 0 -Maximum 256 }))
 ```
 
-## 3. Start PostgreSQL Database
+## 3. Sttart PostgreSQL Database
 ```bash
 docker-compose up -d
 ```
