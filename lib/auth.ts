@@ -1,7 +1,7 @@
 import { NextAuthOptions } from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { prisma } from './prisma'
+import prisma from './prisma'
 import { verify } from 'phc-argon2'
 
 export const authOptions: NextAuthOptions = {
