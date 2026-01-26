@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import { z } from 'zod'
 
 const filterPresetSchema = z.object({
@@ -72,7 +72,6 @@ export async function PATCH(
         { status: 400 }
       )
     }
-    console.error('Error updating filter preset:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -111,7 +110,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting filter preset:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

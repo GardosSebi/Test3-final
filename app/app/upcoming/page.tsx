@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import { prisma } from '@/lib/prisma'
+import prisma from '@/lib/prisma'
 import UpcomingClient from './UpcomingClient'
 
 export default async function UpcomingPage() {
