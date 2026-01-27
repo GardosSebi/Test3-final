@@ -1,7 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
-  return new PrismaClient()
+  return new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  })
 }
 
 declare global {
@@ -14,5 +16,12 @@ export default prisma
 
 if (process.env.NODE_ENV !== 'production') {
   globalThis.prisma = prisma
+}
+
+// Handle graceful shutdown
+if (process.env.NODE_ENV === 'production') {
+  process.on('beforeExit', async () => {
+    await prisma.$disconnect()
+  })
 }
 

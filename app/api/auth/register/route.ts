@@ -74,9 +74,44 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Error('Registration error:', error)
+    // Log error for debugging (visible in Vercel logs)
+    console.error('Registration error:', error)
+    
+    // Check for Prisma/database errors
+    if (error && typeof error === 'object' && 'code' in error) {
+      const prismaError = error as { code?: string; message?: string }
+      
+      // Database connection errors
+      if (prismaError.code === 'P1001' || prismaError.code === 'P1002') {
+        return NextResponse.json(
+          { error: 'Database connection failed. Please check DATABASE_URL configuration.' },
+          { status: 500 }
+        )
+      }
+      
+      // Unique constraint violation
+      if (prismaError.code === 'P2002') {
+        return NextResponse.json(
+          { error: 'User already exists' },
+          { status: 400 }
+        )
+      }
+      
+      // Other Prisma errors
+      return NextResponse.json(
+        { 
+          error: 'Database error', 
+          details: process.env.NODE_ENV === 'development' ? prismaError.message : undefined 
+        },
+        { status: 500 }
+      )
+    }
+    
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        details: process.env.NODE_ENV === 'development' && error instanceof Error ? error.message : undefined
+      },
       { status: 500 }
     )
   }
